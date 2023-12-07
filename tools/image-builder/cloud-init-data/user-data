@@ -1,7 +1,7 @@
-Content-Type: multipart/mixed; boundary="===============1880415709813937995=="
+Content-Type: multipart/mixed; boundary="===============6788488539709182729=="
 MIME-Version: 1.0
 
---===============1880415709813937995==
+--===============6788488539709182729==
 Content-Type: text/cloud-config; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -39,7 +39,7 @@ bnV4LW1vZHVsZXMtNi4yLjE2LXY0LjgubXZwMzgtZ2VuZXJpYwogIC0gbGludXgtbW9kdWxlcy1l
 eHRyYS02LjIuMTYtdjQuOC5tdnAzOC1nZW5lcmljCiAgLSBsaW51eC1oZWFkZXJzLTYuMi4xNi12
 NC44Lm12cDM4LWdlbmVyaWMK
 
---===============1880415709813937995==
+--===============6788488539709182729==
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -52,5 +52,5 @@ ZSBmIC11aWQgMCAtZXhlYyBkZCBpZj0ne30nIG9mPS9kZXYvbnVsbCBjb3VudD0wIHN0YXR1cz1u
 b25lIFw7CgpzZWQgLWkgJ3MvaW1hX2FwcHJhaXNlPWZpeC9pbWFfYXBwcmFpc2U9ZW5mb3JjZS8n
 ICRHUlVCX0ZJTEUKCiMgdXBkYXRlLWdydWIK
 
---===============1880415709813937995==--
+--===============6788488539709182729==--
 
