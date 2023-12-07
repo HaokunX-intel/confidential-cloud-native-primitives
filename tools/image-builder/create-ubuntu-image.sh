@@ -81,7 +81,8 @@ Optional
                             OWERWRITE the same option in the config file. 
   -m                        Flag enable i_version mount
   -e                        Flag enable ima
-  -l <path-to-ima-policy>   The path to the customized ima policy
+  -l <path-to-ima-policy>   The path to the customized ima policy. The policy file will be renamed by "ima-policy",
+                            and place in diretory /etc/ima in the guest image.
 Customization
   -i                        Customized script run by virt-customize before invoking cloud-init (the script is interpreted by /bin/sh)
   -d                        Customized script run by virt-customize after invoking cloud-init (the script is interpreted by /bin/sh)
@@ -350,10 +351,12 @@ pre_cloud_init () {
     fi
 
     if [[ $IMA_POLICY != "" ]] && [[ -f $IMA_POLICY ]]; then
+        mkdir -p ./cache
+        cp $IMA_POLICY ./cache/ima-policy
         virt-customize -a /tmp/${GUEST_IMG} \
             --run-command 'mkdir -p /etc/ima/'
         virt-customize -a /tmp/${GUEST_IMG} \
-            --copy-in $IMA_POLICY:/etc/ima/
+            --copy-in ./cache/ima-policy:/etc/ima/
     else
         error "Can not find customized ima policy file"
     fi
