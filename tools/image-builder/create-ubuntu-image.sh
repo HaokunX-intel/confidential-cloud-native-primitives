@@ -28,6 +28,9 @@ CONFIG_PATH=$CURR_DIR/config/default.yaml
 
 INITRD_SRC_ARR=""
 INITRD_DST_ARR=""
+IVERSION_MOUNT=false
+IMA_ENABLE=false
+IMA_POLICY=""
 
 ok() {
     echo -e "\e[1;32mSUCCESS: $*\e[0;0m"
@@ -76,6 +79,9 @@ Optional
   -c <path-to-config-file>  The path to the config file, default config file is placed in config/default.yaml
                             Note: config file provides advanced config options, but the command line option will
                             OWERWRITE the same option in the config file. 
+  -m                        Flag enable i_version mount
+  -e                        Flag enable ima
+  -l <path-to-ima-policy>   The path to the customized ima policy
 Customization
   -i                        Customized script run by virt-customize before invoking cloud-init (the script is interpreted by /bin/sh)
   -d                        Customized script run by virt-customize after invoking cloud-init (the script is interpreted by /bin/sh)
@@ -85,7 +91,7 @@ EOM
 }
 
 process_args() {
-    while getopts "o:s:n:u:p:r:a:v:i:d:g:x:c:fhtb" option; do
+    while getopts "o:s:n:u:p:r:a:v:i:d:g:x:c:l:fhtbme" option; do
         case "$option" in
         o) GUEST_IMG=$OPTARG ;;
         s) SIZE=$OPTARG ;;
@@ -103,6 +109,9 @@ process_args() {
         t) TEST_SUITE=true ;;
         b) DEBUG_MODE=true ;;
         c) CONFIG_PATH=$OPTARG ;;
+        m) IVERSION_MOUNT=true ;;
+        e) IMA_ENABLE=true ;;
+        l) IMA_POLICY=$OPTARG ;;
         h)
             usage
             exit 0
@@ -336,9 +345,22 @@ pre_cloud_init () {
     dst_pkgs+=("/etc")
     copy_initramfs_tools_deps_into_image /tmp/${GUEST_IMG} src_pkgs dst_pkgs
     
-    # if [ ! -z $VIR_SCRIPT_PRE ]; then
-    #     virt-customize -a /tmp/${GUEST_IMG} --run $VIR_SCRIPT_PRE
-    # fi
+    if [[ $IMA_ENABLE == "true" ]]; then
+        virt-customize -a /tmp/${GUEST_IMG} --run ./pre-scripts/ima-enable-update.sh
+    fi
+
+    if [[ $IMA_POLICY != "" ]] && [[ -f $IMA_POLICY ]]; then
+        virt-customize -a /tmp/${GUEST_IMG} \
+            --run-command 'mkdir -p /etc/ima/'
+        virt-customize -a /tmp/${GUEST_IMG} \
+            --copy-in $IMA_POLICY:/etc/ima/
+    else
+        error "Can not find customized ima policy file"
+    fi
+
+    if [ ! -z $VIR_SCRIPT_PRE ]; then
+        virt-customize -a /tmp/${GUEST_IMG} --run $VIR_SCRIPT_PRE
+    fi
     ok "pre_cloud_init finish"
 }
 
@@ -385,6 +407,14 @@ create_user_data() {
         
         ARGS=$ARGS' -a ./cloud-init-data/cloud-config-test-suite.yaml:cloud-config'
         ARGS=$ARGS' -a ./cloud-init-data/init-scripts/test-suite-docker-related.sh:x-shellscript'
+    fi
+
+    if [[ $IVERSION_MOUNT == "true" ]]; then
+        ARGS=$ARGS' -a ./cloud-init-data/scripts/ima-enable-i_version-mount.sh:x-shellscript'
+    fi
+
+    if [[ $IMA_ENABLE == "true" ]]; then
+        ARGS=$ARGS' -a ./cloud-init-data/scripts/ima-register-file-hash.sh:x-shellscript'
     fi
     
     if [ ! -z $CUS_CLOUD_CONFIG ]; then

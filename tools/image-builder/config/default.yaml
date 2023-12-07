@@ -6,8 +6,8 @@
 #     e.g. `http://remote/index.html` or `https://remote/index.html`
 # * dst: directory inside the guest image to place the binary/file, must not be empty
 
-initrd:
-  - src: /usr/bin/kubeadm
-    dst: /usr/bin/
-  - src: https://github.com/intel/confidential-cloud-native-primitives/blob/main/README.md
-    dst: /opt
+# initrd:
+#   - src: /usr/bin/kubeadm
+#     dst: /usr/bin/
+#   - src: https://github.com/intel/confidential-cloud-native-primitives/blob/main/README.md
+#     dst: /opt

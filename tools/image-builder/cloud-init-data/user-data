@@ -1,7 +1,7 @@
-Content-Type: multipart/mixed; boundary="===============7052322449784992116=="
+Content-Type: multipart/mixed; boundary="===============1880415709813937995=="
 MIME-Version: 1.0
 
---===============7052322449784992116==
+--===============1880415709813937995==
 Content-Type: text/cloud-config; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -33,11 +33,24 @@ OC0xMC8gamFtbXkvYW1kNjQvCnJ1bmNtZDoKICAtIHNlZCAtaSAncy9QYXNzd29yZEF1dGhlbnRp
 Y2F0aW9uIG5vL1Bhc3N3b3JkQXV0aGVudGljYXRpb24geWVzL2cnIC9ldGMvc3NoL3NzaGRfY29u
 ZmlnCiAgLSBzZWQgLWkgJ3MvXCJjb25zb2xlPXR0eTEgY29uc29sZT10dHlTMFwiL1wiY29uc29s
 ZT1odmMwXCIvZycgL2V0Yy9kZWZhdWx0L2dydWIuZC81MC1jbG91ZGltZy1zZXR0aW5ncy5jZmcK
-ICAtIHVwZGF0ZS1pbml0cmFtZnMgLXUgLWsgYWxsCiAgLSB1cGRhdGUtZ3J1YjIKcGFja2FnZXM6
-CiAgLSBsaW51eC1pbWFnZS11bnNpZ25lZC02LjIuMTYtdjQuOC5tdnAzOC1nZW5lcmljCiAgLSBs
-aW51eC1tb2R1bGVzLTYuMi4xNi12NC44Lm12cDM4LWdlbmVyaWMKICAtIGxpbnV4LW1vZHVsZXMt
-ZXh0cmEtNi4yLjE2LXY0LjgubXZwMzgtZ2VuZXJpYwogIC0gbGludXgtaGVhZGVycy02LjIuMTYt
-djQuOC5tdnAzOC1nZW5lcmljCg==
+ICAtIHVwZGF0ZS1pbml0cmFtZnMgLXUgLWsgYWxsCiAgLSB1cGRhdGUtZ3J1YgpwYWNrYWdlczoK
+ICAtIGxpbnV4LWltYWdlLXVuc2lnbmVkLTYuMi4xNi12NC44Lm12cDM4LWdlbmVyaWMKICAtIGxp
+bnV4LW1vZHVsZXMtNi4yLjE2LXY0LjgubXZwMzgtZ2VuZXJpYwogIC0gbGludXgtbW9kdWxlcy1l
+eHRyYS02LjIuMTYtdjQuOC5tdnAzOC1nZW5lcmljCiAgLSBsaW51eC1oZWFkZXJzLTYuMi4xNi12
+NC44Lm12cDM4LWdlbmVyaWMK
 
---===============7052322449784992116==--
+--===============1880415709813937995==
+Content-Type: text/x-shellscript; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="./cloud-init-data/scripts/ima-register-file-hash.sh"
+
+IyEvYmluL2Jhc2gKCmVjaG8gIj09PT09PT09PT09IHJlZ2lzdGVyIGZpbGUgaGFzaCA9PT09PT09
+PT09PSIKCkdSVUJfRklMRT0vZXRjL2RlZmF1bHQvZ3J1Yi5kLzUwLWNsb3VkaW1nLXNldHRpbmdz
+LmNmZwoKdGltZSBmaW5kIC8gLXBhdGggL3Byb2MgLXBydW5lIC1vIC1mc3R5cGUgZXh0NCAtdHlw
+ZSBmIC11aWQgMCAtZXhlYyBkZCBpZj0ne30nIG9mPS9kZXYvbnVsbCBjb3VudD0wIHN0YXR1cz1u
+b25lIFw7CgpzZWQgLWkgJ3MvaW1hX2FwcHJhaXNlPWZpeC9pbWFfYXBwcmFpc2U9ZW5mb3JjZS8n
+ICRHUlVCX0ZJTEUKCiMgdXBkYXRlLWdydWIK
+
+--===============1880415709813937995==--
 
