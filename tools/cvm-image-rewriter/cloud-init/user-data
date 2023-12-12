@@ -1,13 +1,67 @@
-#cloud-config
+Content-Type: multipart/mixed; boundary="===============3890291741488712709=="
+MIME-Version: 1.0
 
-runcmd:
-  - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-  - sed -i 's/\"console=tty1 console=ttyS0\"/\"console=hvc0\"/g' /etc/default/grub.d/50-cloudimg-settings.cfg
-  - update-grub2
+--===============3890291741488712709==
+Content-Type: text/cloud-config; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="/home/xhk/github.com/HaokunX-intel/ccnp/tools/cvm-image-rewriter/cloud-init/user-data.basic"
 
-power_state:
-  delay: now
-  mode: poweroff
-  message: Bye Bye
-  timeout: 1
-  condition: True
+I2Nsb3VkLWNvbmZpZwoKbWVyZ2VfaG93OgogIC0gbmFtZTogbGlzdAogICAgc2V0dGluZ3M6IFth
+cHBlbmRdCiAgLSBuYW1lOiBkaWN0CiAgICBzZXR0aW5nczogW25vX3JlcGxhY2UsIHJlY3Vyc2Vf
+bGlzdF0KCnBvd2VyX3N0YXRlOgogIGRlbGF5OiBub3cKICBtb2RlOiBwb3dlcm9mZgogIG1lc3Nh
+Z2U6IEJ5ZSBCeWUKICB0aW1lb3V0OiAxCiAgY29uZGl0aW9uOiBUcnVlCgpydW5jbWQ6CiAgLSBz
+ZWQgLWkgJ3MvUGFzc3dvcmRBdXRoZW50aWNhdGlvbiBuby9QYXNzd29yZEF1dGhlbnRpY2F0aW9u
+IHllcy9nJyAvZXRjL3NzaC9zc2hkX2NvbmZpZwogIC0gc2VkIC1pICdzL2NvbnNvbGU9dHR5MSBj
+b25zb2xlPXR0eVMwL2NvbnNvbGU9aHZjMC9nJyAvZXRjL2RlZmF1bHQvZ3J1Yi5kLzUwLWNsb3Vk
+aW1nLXNldHRpbmdzLmNmZwogICMgY29weSBzdHVmZiBpbnRvIGluaXRyZAogIC0gdXBkYXRlLWlu
+aXRyYW1mcyAtdSAtayBhbGwKICAjIHVwZGF0ZSBncnViIGZvciBlbmFibGluZyBpbWEKICAtIHVw
+ZGF0ZS1ncnViCgojIFVuY29tbWVudCB0aGlzIHNlY3Rpb24gaWYgeW91IHBsYW4gdG8gY2hhbmdl
+IHVzZXIvcGFzc3dvcmQKdXNlcjogdGR4CnBhc3N3b3JkOiAxMjM0NTYKY2hwYXNzd2Q6IHsgZXhw
+aXJlOiBGYWxzZSB9Cg==
+
+--===============3890291741488712709==
+Content-Type: text/cloud-config; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="/home/xhk/github.com/HaokunX-intel/ccnp/tools/cvm-image-rewriter/pre-stage/50-ima-enable//cloud-init/cloud-config/99-example.yaml"
+
+I2Nsb3VkLWNvbmZpZwoKbWVyZ2VfaG93OgogIC0gbmFtZTogbGlzdAogICAgc2V0dGluZ3M6IFth
+cHBlbmRdCiAgLSBuYW1lOiBkaWN0CiAgICBzZXR0aW5nczogW25vX3JlcGxhY2UsIHJlY3Vyc2Vf
+bGlzdF0KCnJ1bmNtZDoKICAtIGVjaG8gIj09PT09PT09PT09ZXhhbXBsZSI=
+
+--===============3890291741488712709==
+Content-Type: text/x-shellscript; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="/home/xhk/github.com/HaokunX-intel/ccnp/tools/cvm-image-rewriter/pre-stage/50-ima-enable//cloud-init/x-shellscript/01-ima-enable-i_version-mount.sh"
+
+IyEvYmluL2Jhc2gKCmVjaG8gIj09PT09PT09PT09IGVuYWJsZSBpX3ZlcnNpb24gbW91bnQgc3Rh
+cnRlZCA9PT09PT09PT09PSIKCkZTVEFCX0ZJTEU9L2V0Yy9mc3RhYgpGU1RBQl9GSUxFX05FVz0k
+RlNUQUJfRklMRSIubmV3Igphd2sgJ3tpZigkMyA9PSAiZXh0NCIgJiYgJDQgIX4gL2l2ZXJzaW9u
+LykgJDQgPSAkNCIsaXZlcnNpb24iOyBwcmludH0nIFwKICAgICRGU1RBQl9GSUxFIFwKICAgID4g
+JEZTVEFCX0ZJTEVfTkVXCm12ICRGU1RBQl9GSUxFX05FVyAkRlNUQUJfRklMRQoKR1JVQl9GSUxF
+PS9ldGMvZGVmYXVsdC9ncnViLmQvNTAtY2xvdWRpbWctc2V0dGluZ3MuY2ZnCkdSVUJfRklMRV9O
+RVc9JEdSVUJfRklMRSIubmV3Igphd2sgJ3tpZigkMCAhfiAvaV92ZXJzaW9uLyAmJiAkMSB+IC9H
+UlVCX0NNRExJTkVfTElOVVhfREVGQVVMVC8pIHN1YigiPVwiIiwiPVwicm9vdGZsYWdzPWlfdmVy
+c2lvbiAiKTsgcHJpbnR9JyBcCiAgICAkR1JVQl9GSUxFIFwKICAgID4gJEdSVUJfRklMRV9ORVcK
+bXYgJEdSVUJfRklMRV9ORVcgJEdSVUJfRklMRQoKZWNobyAiPT09PT09PT09PT0gZW5hYmxlIGlf
+dmVyc2lvbiBtb3VudCBmaW5pc2hlZCA9PT09PT09PT09PSIKIyB1cGRhdGUtZ3J1Yg==
+
+--===============3890291741488712709==
+Content-Type: text/x-shellscript; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="/home/xhk/github.com/HaokunX-intel/ccnp/tools/cvm-image-rewriter/pre-stage/50-ima-enable//cloud-init/x-shellscript/02-ima-register-file-hash.sh"
+
+IyEvYmluL2Jhc2gKCmVjaG8gIj09PT09PT09PT09IHJlZ2lzdGVyIGZpbGUgaGFzaCBzdGFydGVk
+ID09PT09PT09PT09IgoKR1JVQl9GSUxFPS9ldGMvZGVmYXVsdC9ncnViLmQvNTAtY2xvdWRpbWct
+c2V0dGluZ3MuY2ZnCgp0aW1lIGZpbmQgLyAtcGF0aCAvcHJvYyAtcHJ1bmUgLW8gLWZzdHlwZSBl
+eHQ0IC10eXBlIGYgLXVpZCAwIC1leGVjIGRkIGlmPSd7fScgb2Y9L2Rldi9udWxsIGNvdW50PTAg
+c3RhdHVzPW5vbmUgXDsKCnNlZCAtaSAncy9pbWFfYXBwcmFpc2U9Zml4L2ltYV9hcHByYWlzZT1l
+bmZvcmNlLycgJEdSVUJfRklMRQoKZWNobyAiPT09PT09PT09PT0gcmVnaXN0ZXIgZmlsZSBoYXNo
+IGZpbmlzaGVkID09PT09PT09PT09IgoKIyB0aGUgY29tbWFuZCBpcyBleGVjdXRlZCBpbiBiYXNp
+YyBzY3JpcHQKIyB1cGRhdGUtZ3J1YiA=
+
+--===============3890291741488712709==--
+

@@ -8,6 +8,7 @@ SCRIPTS_DIR="${TOP_DIR}/scripts"
 TARGET_FILES_DIR="$(mktemp -d /tmp/cvm_target_files.XXXXXX)"
 INPUT_IMG=""
 OUTPUT_IMG="output.qcow2"
+TIMEOUT=3
 
 # Scan all subdirectories from pre-stage and post-stage
 pre_stage_dirs=("$TOP_DIR/pre-stage"/*/)
@@ -27,6 +28,9 @@ usage() {
 Usage: $(basename "$0") [OPTION]...
 Required
   -i <guest image>          Specify initial guest image file
+Optional
+  -t <number of minutes>    Specify the timeout of rewritting, 3 minutes default,
+                            If enbling ima, recommand timeout >6 minutes
 EOM
 }
 
@@ -118,7 +122,101 @@ do_post_stage() {
     run_post_stage
 }
 
+_generate_cloud_init_meta_data() {
+    info "Generate cloud init meta-data"
+    pushd ${TOP_DIR}/cloud-init
+    awk -v inst_name="tdx-inst-"$(date '+%Y-%m-%d-%H-%M-%S')  \
+        '{if ($1 ~ /instance-id/) $2=inst_name; print}' meta-data.template \
+        > meta-data
+    popd
+    ok "Complete cloud init meta-data"
+}
+
+_cloud_init_user_data_fromat_check() {
+    input_file=$1
+    order_check=$2
+    if [[ $order_check == "true" ]] && ! [[ $(basename $input_file) =~ ^[0-9]{2} ]]; then
+        error "User data format file name should start with two digitals: $input_file\n\
+        e.g. 03-example or 55-another"s   
+    fi
+
+    file_type=$(head -1 $input_file)
+    
+    case "$file_type" in
+    "#cloud-config")
+        merge_opt=$(grep "merge_how" "$input_file" || true)
+        example_path="tools/cvm-image-rewriter/cloud-init/user-data.basic"
+        if  [[ "$merge_opt" == "" ]] || [[ "$merge_opt" == "#"* ]]; then
+            error "Cloud config need entry 'merge_how',\n\
+            add one or uncomment it in $input_file,\n\
+            refer default in $example_path,\n\
+            or https://cloudinit.readthedocs.io/en/latest/reference/merging.html"
+        fi
+        info "user data: cloud-config ---> " $input_file
+    ;;
+    \#!*)
+        info "user data: x-shellscript ---> " $input_file
+    ;;
+    *)
+    info "Supported user data: cloud-config & x-shellscript"
+    error "Unsupported user data: $input_file, starting with $file_type"
+    ;;
+    esac
+}
+
+_generate_cloud_init_user_data() {
+    CLD_INIT_CONFIG_SUFFIX=":cloud-config"
+    CLD_INIT_SCRIPT_SUFFIX=":x-shellscript"
+    USER_DATA_BASIC="./cloud-init/user-data.basic"
+    USER_DATA_TARGET="./cloud-init/user-data"
+
+    info "Generate cloud init user-data"
+    
+    # basic user data 
+    info "Start user data format check"
+
+    _cloud_init_user_data_fromat_check $USER_DATA_BASIC
+    ARGS=" -a "$(realpath $USER_DATA_BASIC)$CLD_INIT_CONFIG_SUFFIX
+
+    # find all cloud init user data in pre-stage
+    for path_item in "${pre_stage_dirs[@]}"
+    do
+        sub_dirs=($path_item/*/)
+        for dir in ${sub_dirs[@]}
+        do
+            
+            if [[ ${dir} == *"cloud-init"* ]]; then
+                CLD_CONFIG_DIR=${dir}cloud-config
+                CLD_SCRIPT_DIR=${dir}x-shellscript
+                
+                # find cloud init cloud-config
+                for f in "$CLD_CONFIG_DIR"/*
+                do
+                    _cloud_init_user_data_fromat_check $f true
+                    ARGS+=" -a $f$CLD_INIT_CONFIG_SUFFIX"
+                done
+                
+                # find cloud init x-shellscript
+                for f in "$CLD_SCRIPT_DIR"/*
+                do
+                    _cloud_init_user_data_fromat_check $f true
+                    ARGS+=" -a $f$CLD_INIT_SCRIPT_SUFFIX"
+                done
+                break
+            fi
+        done
+    done
+    
+    ok "Complete user data format check"
+
+    cloud-init devel make-mime $ARGS > $USER_DATA_TARGET
+    ok "Complete cloud init user-data"
+}
+
 do_cloud_init() {
+    _generate_cloud_init_meta_data
+    _generate_cloud_init_user_data
+
     info "Run cloud-init..."
 
     pushd ${TOP_DIR}/cloud-init
@@ -137,7 +235,7 @@ do_cloud_init() {
         --virt-type kvm \
         --graphics none \
         --import \
-        --wait=3
+        --wait=$TIMEOUT
     ok "Complete cloud-init..."
     sleep 1
 
@@ -156,9 +254,10 @@ cleanup() {
 }
 
 process_args() {
-    while getopts ":i:h" option; do
+    while getopts ":i:t:h" option; do
         case "$option" in
         i) INPUT_IMG=$OPTARG ;;
+        t) TIMEOUT=$OPTARG ;;
         h)
             usage
             exit 0
