@@ -27,7 +27,7 @@ To enable IMA, this plugin conducts following 2 steps.
 
 To enable IMA update, the script `host_run.sh` in the host invokes script `guest_enable_ima_fix.sh`, which will be executed in the guest image, by `virt-customize`.
 
-The script `guest_enable_ima_fix.sh` updates `/etc/fstab`, where we only enable i_version on partitions with ext4 format in the case, and append option `rootflags=i_version` in kernel cmdline to enable i_version mount on root partition. Additionally, it also appends option `ima_appraise=fix` in config file `/etc/default/grub.d/50-cloudimg-settings.cfg` and run `update-grub` to update kernel cmdline. If you guest image has other config files, please replace the config file path. 
+The script `guest_enable_ima_fix.sh` updates `/etc/fstab`, where we only enable i_version on partitions with ext4 format in the case, and append option `rootflags=i_version` in kernel cmdline to enable i_version mount on root partition. Additionally, it also appends option `ima_appraise=fix` in config file `/etc/default/grub.d/60-ccnp-setting.cfg` and run `update-grub` to update kernel cmdline. If you guest image has other config files, please replace the config file path. 
 
 Here, the IMA update is enabled, guest image can update IMA data at next launch, which typically refers to the next launch by the cloud-init in the following step.
 

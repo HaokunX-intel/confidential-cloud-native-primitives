@@ -12,7 +12,7 @@ read -r -d '' CLD_SH_TEMPLATE << EOM
 
 echo "=========== register file hash started ==========="
 
-GRUB_FILE=/etc/default/grub.d/50-cloudimg-settings.cfg
+GRUB_FILE=/etc/default/grub.d/60-ccnp-setting.cfg
 
 # replaced by required files
 PLACEHOLDER

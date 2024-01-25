@@ -15,7 +15,9 @@ power_state:
 
 runcmd:
   - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-  - sed -i 's/console=tty1 console=ttyS0/console=hvc0/g' /etc/default/grub.d/50-cloudimg-settings.cfg
+  - GRUB_CFG="/etc/default/grub.d/60-ccnp-setting.cfg"
+  - if ! [ -f $GRUB_CFG ]; then echo 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT"' > $GRUB_CFG; fi
+  - sed -i 's/console=tty1 console=ttyS0/console=hvc0/g' $GRUB_CFG
   # copy stuff into initrd
   - update-initramfs -u -k all
   # update grub for enabling ima
